@@ -8,11 +8,11 @@ from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
-from config import DB_USER, DB_PASS, DB_HOST, DB_NAME
+from config import DB_USER, DB_PASS, DB_HOST, DB_NAME, BASE_DIR
 
 logger = logging.getLogger(__name__)
 
-# Directorios a respaldar
+# Directorios a respaldar (nombres relativos al proyecto)
 DIRS_TO_BACKUP = [
     'datos',
     'modelos_v2',
@@ -70,7 +70,7 @@ def crear_backup_datos():
     logger.info(f"Creando backup de datos: {zip_filename}...")
     
     # Crear un directorio temporal para agrupar lo que vamos a comprimir
-    temp_dir = "temp_backup_data"
+    temp_dir = os.path.join(BASE_DIR, "temp_backup_data")
     if os.path.exists(temp_dir):
         shutil.rmtree(temp_dir)
     os.makedirs(temp_dir)
@@ -78,13 +78,16 @@ def crear_backup_datos():
     try:
         # Copiar carpetas al directorio temporal
         for folder in DIRS_TO_BACKUP:
-            if os.path.exists(folder):
-                shutil.copytree(folder, os.path.join(temp_dir, folder))
+            folder_path = os.path.join(BASE_DIR, folder)
+            if os.path.exists(folder_path):
+                shutil.copytree(folder_path, os.path.join(temp_dir, folder))
         
         # Comprimir
-        shutil.make_archive(zip_filename.replace('.zip', ''), 'zip', temp_dir)
+        zip_path = os.path.join(BASE_DIR, zip_filename.replace('.zip', ''))
+        shutil.make_archive(zip_path, 'zip', temp_dir)
+        full_zip = zip_path + '.zip'
         logger.info("Backup de datos comprimido correctamente.")
-        return zip_filename
+        return full_zip
     except Exception as e:
         logger.error(f"Error al comprimir datos: {e}")
         return None
@@ -96,7 +99,7 @@ def crear_backup_datos():
 def crear_backup_db():
     """Realiza un dump de la base de datos MySQL."""
     fecha_hoy = datetime.date.today().strftime("%Y-%m-%d")
-    dump_filename = f"db_{fecha_hoy}.sql.gz"
+    dump_filename = os.path.join(BASE_DIR, f"db_{fecha_hoy}.sql.gz")
     
     logger.info(f"Creando dump de base de datos: {dump_filename}...")
     
