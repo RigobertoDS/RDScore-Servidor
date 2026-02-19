@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+
+# Environment Variables
+.env
+
+# Data Files (Server Generated - NEVER SYNC)
+*.pkl
+*.db
+*.sqlite3
+
+# Data Directories
+datos/
+modelos_v1/
+meta_modelos_v1/
+ligas/
+modelos_v2/
+meta_modelos_v2/
+
+# Logs
+*.log
+
+# Scripts
+*.ps1
+
+# Backups & Credentials
+credentials.json
+client_secret.json
+token.json
+*.sql.gz
+*.zip
+
+# Flask config y datos extra
+instance/
+redis-reset.db.settings
+redis-reset.db
+config.py
+
+# macOS (por si en el futuro se usa Mac)
+.DS_Store
