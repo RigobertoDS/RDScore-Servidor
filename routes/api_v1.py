@@ -1,8 +1,11 @@
+import os
+import json
 from flask import Blueprint, jsonify, request
 from utils.errors import ErrorCode, api_error
 from flask_jwt_extended import jwt_required
 from datetime import datetime
 from models import Partido, Liga
+from config import BASE_DIR
 from services.analysis.comprobar_precision import cargar_resumen, cargar_resumen_tipo_apuesta
 from services.analysis.comprobar_precision_cuotas_calientes import (
     cargar_resumen_cuotas_calientes,
@@ -11,6 +14,24 @@ from services.analysis.comprobar_precision_cuotas_calientes import (
 from services.data_fetching.obtener_cuotas_calientes import cargar_cuotas_calientes, cargar_partidos_calientes
 
 api_v1_bp = Blueprint('api_v1', __name__)
+
+RUTA_MANTENIMIENTO = os.path.join(BASE_DIR, 'datos', 'mantenimiento.json')
+
+# --- ENDPOINT DE MANTENIMIENTO (público, sin auth) ---
+
+@api_v1_bp.route("/mantenimiento", methods=["GET"])
+def get_mantenimiento():
+    """
+    Devuelve el estado de mantenimiento del servidor.
+    No requiere autenticación para que la app pueda consultarlo al iniciar.
+    """
+    try:
+        with open(RUTA_MANTENIMIENTO, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            activo = data.get("activo", False)
+    except (FileNotFoundError, json.JSONDecodeError):
+        activo = False
+    return jsonify({"activo": activo}), 200
 
 # --- ENDPOINTS DE PARTIDOS ---
 

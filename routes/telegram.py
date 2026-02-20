@@ -117,4 +117,26 @@ def telegram_webhook():
         )
         ok, resp = enviar_telegram(r.text)
 
+    # Comando /mantenimiento_on
+    elif text == "/mantenimiento_on":
+        r = requests.post(
+            "https://www.rdscore.com/mantenimiento",
+            headers={"X-Admin-Key": ADMIN_KEY, "Content-Type": "application/json"},
+            json={"activo": True},
+            timeout=5
+        )
+        data = r.json()
+        ok, resp = enviar_telegram(f"🔴 {data.get('resultado', 'Mantenimiento activado')}")
+
+    # Comando /mantenimiento_off
+    elif text == "/mantenimiento_off":
+        r = requests.post(
+            "https://www.rdscore.com/mantenimiento",
+            headers={"X-Admin-Key": ADMIN_KEY, "Content-Type": "application/json"},
+            json={"activo": False},
+            timeout=5
+        )
+        data = r.json()
+        ok, resp = enviar_telegram(f"🟢 {data.get('resultado', 'Mantenimiento desactivado')}")
+
     return "OK", 200
