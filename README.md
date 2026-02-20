@@ -1,109 +1,118 @@
-# RDScore Servidor ⚽📊
+<p align="center">
+  <img src="static/logo_servidor.webp" width="120" alt="RDScore Backend Logo"/>
+</p>
 
-Servidor backend para **RDScore**, una plataforma de análisis y predicción de apuestas deportivas (fútbol). Este proyecto está construido con **Flask** y se encarga de recolectar datos de ligas y partidos, entrenar modelos de Machine Learning (XGBoost, LightGBM) para predecir resultados, gestionar usuarios y servir una API REST para aplicaciones cliente (Android/Web).
+<h1 align="center">⚽ RDScore Servidor</h1>
 
-## 🚀 Características Principales
+<p align="center">
+  <b>Cerebro de Predicciones y API REST para RDScore</b><br/>
+  <i>Machine Learning, ETL y Gestión de Datos en Tiempo Real</i>
+</p>
 
-* **Autenticación y Gestión de Usuarios**: Sistema de registro e inicio de sesión seguro usando tokens JWT (`flask-jwt-extended`). Incluye recuperación de contraseñas mediante códigos temporales manejados con Redis (`redislite`) y envío de emails.
-* **Recolección de Datos Deportivos (ETL)**: Integración con la API externa de fútbol (`api-sports.io`) para descargar automáticamente clasificaciones, partidos (fixtures), equipos y cuotas de las casas de apuestas.
-* **Machine Learning (Pipeline v2)**: 
-    * Predicción de **Resultado (1X2)**, **Ambos Marcan (BTTS)** y **Más/Menos de 2.5 goles (Over/Under)**.
-    * Arquitectura basada en modelos de **XGBoost Regressor** y clasificadores de **LightGBM** calibrados (isotonic).
-    * Extracción de más de 50 *features* (histórico H2H, rachas, ratios, etc.).
-    * Optimización de umbrales para estrategias de riesgo: *Conservador, Moderado y Agresivo* buscando *Value Bets*.
-    * Generación diaria de **"Cuotas Calientes"** con seguimiento de rentabilidad y ROI.
-* **API RESTful (`/api/v1/`)**: Endpoints documentados y protegidos para el consumo de ligas, historial de partidos, estadísticas avanzadas de los equipos y métricas de precisión de la plataforma.
-* **Bot de Telegram Integrado**: Webhook que permite mediante comandos (`/status`, `/precision_modelos`, `/cuotas_calientes`, etc.) monitorear el servidor y recibir reportes directamente en un chat de administración.
-* **Automatización y Backups**: Mediante el script `main.py`, se ejecuta diariamente todo el flujo de trabajo: obtiene datos, reentrena modelos base y meta-modelos, genera predicciones y sube una copia de seguridad (archivos y base de datos MySQL) automáticamente a **Google Drive**.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" alt="Python"/>
+  <img src="https://img.shields.io/badge/Framework-Flask-000000?logo=flask&logoColor=white" alt="Flask"/>
+  <img src="https://img.shields.io/badge/ML-XGBoost%20%7C%20LightGBM-ff69b4" alt="ML Stack"/>
+  <img src="https://img.shields.io/badge/DB-MySQL%20%26%20Redis-4479A1?logo=mysql&logoColor=white" alt="Database"/>
+</p>
 
-## 🛠️ Stack Tecnológico
+---
 
-* **Backend**: Python 3.12, Flask, Flask-Cors
-* **Base de Datos**: MySQL (vía Flask-SQLAlchemy) y Redis (`redislite`)
-* **Machine Learning**: Scikit-Learn, XGBoost, LightGBM, Pandas, Numpy
-* **Seguridad**: Flask-Bcrypt, Flask-JWT-Extended
-* **Integraciones**: Football API (api-sports), Telegram Bot API, Google Drive API
+## � Acerca de
 
-## 📂 Estructura del Proyecto
+El **Servidor RDScore** es el núcleo de procesamiento de la plataforma. Se encarga de todo el ciclo de vida de los datos: desde la recolección (ETL) y el entrenamiento de modelos de Inteligencia Artificial, hasta la exposición de una API REST protegida para la aplicación Android.
+
+Este backend automatiza la generación diaria de predicciones de alto valor basándose en algoritmos avanzados de regresión y clasificación, calibrados específicamente para el mercado de apuestas deportivas.
+
+---
+
+## ✨ Características Principales
+
+### 🧠 Pipeline de Machine Learning (v2)
+- **Modelos Avanzados**: Implementación de **XGBoost Regressor** y clasificadores **LightGBM** con calibración isotónica.
+- **Predicción Multi-mercado**:
+  - 🏆 Ganador (1X2)
+  - ⚽ Ambos Marcan (BTTS)
+  - 📊 Más/Menos de 2.5 Goles
+- **Ingeniería de Features**: Procesamiento de más de 50 variables dinámicas (H2H, rachas, ratios de goles, etc.).
+- **Optimización de Value Bets**: Cálculo automático de umbrales para estrategias *Conservadora, Moderada y Agresiva*.
+
+### 🔄 Automatización y ETL
+- **Recolección Automática**: Integración con API-Sports para obtener fixtures, resultados, standings y cuotas en tiempo real.
+- **Workflow Diario**: El script `main.py` gestiona el reentrenamiento, la predicción de nuevas jornadas y el cálculo de ROI de forma autónoma.
+- **Backups Inteligentes**: Generación de dumps de base de datos y archivos críticos con subida automática a **Google Drive**.
+
+### 🔐 Seguridad y Usuarios
+- **Autenticación JWT**: Gestión de sesiones segura mediante tokens de acceso y refresco.
+- **Recuperación de Cuentas**: Sistema de códigos temporales con **Redis** y envío de correos electrónicos vía SMTP.
+- **Cifrado**: Almacenamiento seguro de contraseñas mediante **Bcrypt**.
+
+### 🤖 Monitorización (Telegram Bot)
+- **Webhook Integrado**: Control remoto del servidor mediante comandos de Telegram.
+- **Reportes en Vivo**: Consulta de estados, precisión de modelos y alertas de cuotas calientes directamente desde el móvil.
+
+---
+
+## 🏗️ Stack Tecnológico
+
+| Capa | Tecnología |
+|---|---|
+| **Lenguaje** | Python 3.12 |
+| **Framework Web** | Flask + Flask-Cors |
+| **ML Libraries** | Scikit-Learn, XGBoost, LightGBM, Pandas, Numpy |
+| **Base de Datos** | MySQL (Flask-SQLAlchemy) + Redis (Redislite) |
+| **Seguridad** | Flask-JWT-Extended + Flask-Bcrypt |
+| **Integraciones** | Google Drive API, Telegram Bot API, API-Sports |
+
+---
+
+## � Estructura del Proyecto
 
 ```text
-└── rigobertods-rdscore-servidor/
-    ├── app.py                  # Factory de la aplicación y configuración Flask
-    ├── main.py                 # Pipeline diario (ETL, ML, predicciones y backup)
-    ├── models.py               # Modelos de SQLAlchemy (Tablas BD)
-    ├── config.py               # Variables de entorno y configuración
-    ├── clases/                 # Clases nativas de objetos (Equipo, Partido)
-    ├── routes/                 # Blueprints de Flask (api_v1, auth, admin, telegram, web)
-    ├── scripts/                # Scripts utilitarios (ej. auth_google.py)
-    ├── services/               # Lógica principal de negocio:
-    │   ├── analysis/           # Comprobación de ROI, precisión y obtención de umbrales
-    │   ├── data_fetching/      # Lógica de consumo de API-Sports (cuotas, standings, fixtures)
-    │   ├── ml_v2/              # Nuevo Pipeline ML: features, entrenamiento, evaluación y metamodelos
-    │   ├── persistence/        # Persistencia en base de datos
-    │   └── backup.py           # Subida de dumps a Google Drive
-    ├── templates/              # Páginas web renderizadas y plantillas (Privacidad, web)
-    └── utils/                  # Respuestas estandarizadas de Error/Success
+├── app.py                  # Punto de entrada y configuración de Flask
+├── main.py                 # Orquestador del pipeline diario (ETL + ML)
+├── models.py               # Definición de tablas y modelos de base de datos
+├── routes/                 # Blueprints: API v1, Auth, Admin, Telegram
+├── services/               # El "corazón" del backend:
+│   ├── ml_v2/              # Lógica de entrenamiento y meta-modelos
+│   ├── data_fetching/      # Consumo de APIs externas e ingesta de datos
+│   ├── analysis/           # Cálculos de ROI, precisión y umbrales
+│   └── backup.py           # Gestión de copias de seguridad en la nube
+├── classes/                # Clases nativas y modelos de negocio
+├── scripts/                # Utilidades de mantenimiento y auth de Google
+├── templates/              # Páginas web estáticas (Privacidad, landing)
+└── utils/                  # Formateo de respuestas y manejo de errores
+```
 
-⚙️ Instalación y Configuración
+---
 
-1. Clonar el repositorio y navegar a la carpeta principal:
+## 🚀 Instalación y Uso
 
-    git clone <tu-repositorio>
-    cd rigobertods-rdscore-servidor
+### Configuración del Entorno
+1. Clonar y preparar entorno:
+   ```bash
+   git clone https://github.com/RigobertoDS/RDScore-Servidor.git
+   cd RDScore-Servidor
+   python -m venv .venv
+   source .venv/bin/activate  # .venv\Scripts\activate en Windows
+   pip install -r requirements.txt
+   ```
 
-2. Crear y activar un entorno virtual:
+2. Configurar el archivo `.env` con las claves necesarias (DB, API Keys de Fútbol, JWT Secret, etc.).
 
-    python3.12 -m venv .venv
-    source .venv/bin/activate  # En Linux/Mac
-    # .venv\Scripts\activate   # En Windows
+### Ejecución
+- **Para desarrollo (API):** `python app.py`
+- **Para el pipeline diario:** `python main.py`
 
-3. Instalar dependencias:
+---
 
-    pip install -r requirements.txt
+## 📄 Licencia
 
-4. Variables de Entorno:
+Este proyecto es propiedad de RigobertoDS. Todos los derechos reservados.  
+Los términos de privacidad se detallan en la sección correspondiente de la API.
 
-    Asegúrate de configurar las credenciales necesarias en el archivo .env o en tu entorno de despliegue.
-    
-    Ejemplos de variables requeridas:
+---
 
-    - SQLALCHEMY_DATABASE_URI (Conexión a MySQL)
-
-    - JWT_SECRET_KEY (Clave para firmar tokens)
-
-    - ADMIN_KEY (Clave estática para las rutas de administración)
-
-    - API_KEY (Tu API Key de api-sports.io)
-
-    - MAIL_USERNAME / MAIL_PASSWORD (Credenciales SMTP para recuperación de cuentas)
-
-    - TG_TOKEN / TG_CHAT_ID (Para notificaciones de Telegram)
-
-5. Autenticación en Google Drive (Para Backups):
-
-    Si vas a utilizar los backups automáticos, en un entorno local ejecuta:
-    
-    python scripts/auth_google.py
-    
-    Sigue los pasos en el navegador y luego sube el archivo generado (token.json) a tu servidor en producción.
-
-▶️ Uso
-
-1. Iniciar la API REST (Servidor Web):
-
-    Para levantar el backend (en desarrollo):
-    
-    python app.py
-    
-    (El servidor se ejecutará en http://127.0.0.1:5000)
-
-2. Ejecutar el Pipeline Principal (Tareas Programadas):
-
-    El archivo main.py está diseñado para ejecutarse como un cronjob diario.
-    Se encargará de descargar las nuevas cuotas, reentrenar modelos si hay nuevos partidos terminados, predecir los siguientes días y respaldar la BD.
-    
-    python main.py
-    
-📜 Licencia / Legal
-
-Todos los términos de uso y privacidad se rigen según lo expuesto en el portal web (ruta /privacidad).
+<p align="center">
+  <b>Desarrollado con 🦾 por <a href="https://github.com/RigobertoDS">RigobertoDS</a></b>
+</p>
