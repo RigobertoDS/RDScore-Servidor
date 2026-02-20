@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="static/logo_servidor.webp" width="120" alt="RDScore Backend Logo"/>
+  <img src="static/rdscore.png" width="120" alt="RDScore Logo"/>
 </p>
 
 <h1 align="center">⚽ RDScore Servidor</h1>
